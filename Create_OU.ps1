@@ -1,4 +1,6 @@
-﻿function Create_OU {
+. "C:\Users\Administrateur\Documents\Script-Admin-gestion-utilisateurs\creation_user_on_OU_script.ps1"
+
+function CreateOU {
     $OUName = Read-Host -Prompt "Quel nom voulez-vous attribuer à votre OU"
     if ($OUName.Length -eq 0) {
         Write-Host "Vous n'avez pas saisie de nom"
@@ -10,13 +12,12 @@
     }
 }
 
-function Remove_OU {
-    $OUName = Get-ADOrganizationalUnit -Filter 'Name -like "*"' | Format-Table Name | Out-String
-    Write-Host "Les Unitées d'Organisations présents actuellement sont les suivants"
-    Write-Host
-    Write-Host $OUName
+function RemoveOU {
+    $OU = SelectOU -str "que vous voulez supprimer"
+    $OUPath = GetOUPath -OU $OU
 
-    $OUToRemove = Read-Host -Prompt "Lequel voulez-vous supprimer (Veuillez entrer le nom de l'OU) ?"
+    ## Il faut déprotéger l'Unité d'Organisation avant de la supprimer, sinon accès refusé
+    Get-ADOrganizationalUnit -Identity "$OUPath" | Set-ADOrganizationalUnit –ProtectedFromAccidentalDeletion $false
 
-
+    Remove-ADOrganizationalUnit -Identity "$OUPath" -Recursive
 }
