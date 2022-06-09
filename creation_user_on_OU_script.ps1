@@ -59,7 +59,7 @@ function CreateUser {
     }
 }
 
-## Fonction récupérant le nom de l'OU qui est destiné à l'utilisateur
+## Fonction attribuant le nom de l'OU à l'utilisateur
 function AttributeOU {
     param(
         [string] $OU
