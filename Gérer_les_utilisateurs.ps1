@@ -4,13 +4,14 @@
 
 function Main {
     Write-Host "`n-------------------------------------------------"
-    Write-Host "Bienvenue dans le menu pour gérer les utilisateurs"
+    Write-Host "Bienvenue dans le menu pour gÃ©rer les utilisateurs"
     Write-Host "-------------------------------------------------`n"
 
     Write-Host "Vous avez le choix entre :"
-    Write-Host "1 : Créer un utilisateur"
-    Write-Host "2 : Créer une Unité d'Organisation"
-    Write-Host "3 : Changer un utilisateur d'Unité d'Organisation"
+    Write-Host "1 : CrÃ©er un utilisateur"
+    Write-Host "2 : CrÃ©er une UnitÃ© d'Organisation"
+    Write-Host "3 : Changer un utilisateur d'UnitÃ© d'Organisation"
+    Write-Host "4 : Supprimer une Unité d'Organisation"
     $choice = Read-Host -Prompt "Que voulez-vous faire "
     $choiceInt
     try {
@@ -20,24 +21,27 @@ function Main {
             Main
         }
         Write-Host $test
-        if ($choiceInt -lt 1 -and $choiceInt -gt 3) {
+        if ($choiceInt -lt 1 -and $choiceInt -gt 4) {
             Write-Host "Vous n'avez pas saisie une bonne valeur veuillez recommencer`n"
             Main
         } else {
             if ($choiceInt -eq 1) {
                 GetUserInformation
             } elseif ($choiceInt -eq 2){
-                Create_OU
-            } else {
+                CreateOU
+            } elseif ($choiceInt -eq 3) {
                 Write-Host "Changer l'utilisateur"
+            } else {
+                RemoveOU
             }
         }
     } 
     catch {
         Write-Warning $_
-        Write-Warning "Veuillez réessayer en entrant une bonne valeur"
+        Write-Warning "Veuillez rÃ©essayer en entrant une bonne valeur"
         Main
     }
 }
 
 Main
+
