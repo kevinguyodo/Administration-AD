@@ -6,18 +6,22 @@ function GetUserInformation {
     $userName = Read-Host -Prompt 'Saisir votre Prénom'
     $userSurname = Read-Host -Prompt 'Saisir votre Nom de famille'
     $userMail = Read-Host -Prompt 'Saisir votre addresse mail'
-
-    Write-Host "Vous devrez saisir votre Unité d'organisation avec un chiffre : "
-       for ($index = 0; $index -le ($allOUName.Length-1); $index++) {
-        Write-Host $index " : " $allOUName[$index].Name
-   }
-    $userOU = Read-Host -Prompt "Saisir votre Unité d'organisation"
+    $OU = SelectOU
     $accountName = $userName[0] + "." + $userSurname
     $defaultPassword = "atoutweb-2022"
     Write-Output ('Your name is : ' + $userName + ' your mail is : ' + $userMail + ' and your OU is : ' + $userOU)
     Write-Output ('Your default password is :' + $defaultPassword)
-    CreateUser -name $userName -surname $userSurname -mail $userMail -OU $userOU -accountName $accountName -password $defaultPassword 
+    CreateUser -name $userName -surname $userSurname -mail $userMail -OU $OU -accountName $accountName -password $defaultPassword 
     Exit
+}
+
+function SelectOU {
+    Write-Host "Vous devrez saisir votre Unité d'organisation avec un chiffre : "
+       for ($index = 0; $index -le ($allOUName.Length-1); $index++) {
+        Write-Host $index " : " $allOUName[$index].Name
+   }
+   $userOU = Read-Host -Prompt "Saisir votre Unité d'organisation"
+   return $userOU
 }
 
 function CreateUser {
