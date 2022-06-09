@@ -1,4 +1,4 @@
-﻿## Création de constante 
+## Création de constante 
 $allOUName = Get-ADOrganizationalUnit -Filter 'Name -like "*"' | Select Name  
 
 ## Fonction permettant l'interaction avec l'utilisateur
@@ -16,11 +16,14 @@ function GetUserInformation {
 }
 
 function SelectOU {
+    Param (
+        [string] $str = ""
+    )
     Write-Host "Vous devrez saisir votre Unité d'organisation avec un chiffre : "
        for ($index = 0; $index -le ($allOUName.Length-1); $index++) {
         Write-Host $index " : " $allOUName[$index].Name
    }
-   $userOU = Read-Host -Prompt "Saisir votre Unité d'organisation"
+   $userOU = Read-Host -Prompt "Saisir votre Unité d'organisation $str"
    return $userOU
 }
 
@@ -33,11 +36,10 @@ function CreateUser {
         [string] $accountName,
         [string] $password
     )
-    $path = InsertUserInOU -OU $OU
+    $path = GetOUPath -OU $OU
     $userName = $name + " " + $surname
     $allInformation = @($name, $userName, $mail, $OU)
     $OUUser = AttributeOU -OU $OU
-    $group = $OUUser
     $principalAccountName = ($accountName + "@proxmoxat.fr")
 
     try {
@@ -51,7 +53,7 @@ function CreateUser {
         }
         ## Ajout d'un utilisateur dans un OU qui lui ai destiné
         New-ADUser -Name $userName -GivenName $name -Surname $surname -Displayname $userName -SamAccountName $accountName -UserPrincipalName $principalAccountName  -EmailAddress $mail -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) -path "$path" -Enabled $true
-        Add-ADGroupMember -Identity $group -Members $accountName
+        Add-ADGroupMember -Identity $OUUser -Members $accountName
     }
     ## Gestion d'exception
     catch {
@@ -74,7 +76,7 @@ function AttributeOU {
 }
 
 ## Fonction renvoyant le Path de l'OU de l'utilisateur 
-function InsertUserInOU {
+function GetOUPath {
     param(
         [string] $OU
     )
@@ -103,3 +105,4 @@ function InsertUserInOU {
 }#>
 
 ##GetUserInformation
+
