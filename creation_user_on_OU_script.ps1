@@ -36,7 +36,7 @@ function CreateUser {
     $path = InsertUserInOU -OU $OU
     $userName = $name + " " + $surname
     $allInformation = @($name, $userName, $mail, $OU)
-    $OUUser = GetNameOfOU -OU $OU
+    $OUUser = AttributeOU -OU $OU
     $group = $OUUser
     $principalAccountName = ($accountName + "@proxmoxat.fr")
 
@@ -60,7 +60,7 @@ function CreateUser {
 }
 
 ## Fonction récupérant le nom de l'OU qui est destiné à l'utilisateur
-function GetNameOfOU {
+function AttributeOU {
     param(
         [string] $OU
     )
@@ -78,7 +78,7 @@ function InsertUserInOU {
     param(
         [string] $OU
     )
-    $OUUser = GetNameOfOU -OU $OU
+    $OUUser = AttributeOU -OU $OU
     $domainName = "proxmoxat"
     $DC= "fr"
     $pathToChange = "DC=$domainName,DC=$DC"
