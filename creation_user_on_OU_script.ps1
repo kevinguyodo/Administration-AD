@@ -1,6 +1,3 @@
-## Création de constante 
-$allOUName = Get-ADOrganizationalUnit -Filter 'Name -like "*"' | Select Name  
-
 ## Fonction permettant l'interaction avec l'utilisateur
 function GetUserInformation {
     $userName = Read-Host -Prompt 'Saisir votre Prénom'
@@ -12,18 +9,19 @@ function GetUserInformation {
     Write-Output ('Your name is : ' + $userName + ' your mail is : ' + $userMail + ' and your OU is : ' + $userOU)
     Write-Output ('Your default password is :' + $defaultPassword)
     CreateUser -name $userName -surname $userSurname -mail $userMail -OU $OU -accountName $accountName -password $defaultPassword 
-    Exit
+    ExitOrContinueProgram
 }
 
 function SelectOU {
     Param (
         [string] $str = ""
     )
+    $allOUName = Get-ADOrganizationalUnit -Filter 'Name -like "*"' | Select Name
     Write-Host "Vous devrez saisir votre Unité d'organisation avec un chiffre : "
        for ($index = 0; $index -le ($allOUName.Length-1); $index++) {
         Write-Host $index " : " $allOUName[$index].Name
    }
-   $userOU = Read-Host -Prompt "Saisir votre Unité d'organisation $str"
+   $userOU = Read-Host -Prompt "Saisir une Unité d'organisation $str"
    return $userOU
 }
 
@@ -67,6 +65,7 @@ function AttributeOU {
         [string] $OU
     )
     $specificOU = ""
+    $allOUName = Get-ADOrganizationalUnit -Filter 'Name -like "*"' | Select Name
     try {
         Set-Variable -Name "specificOU" -Value ($allOUName[$OU].Name)
     } catch {
@@ -105,4 +104,3 @@ function GetOUPath {
 }#>
 
 ##GetUserInformation
-
