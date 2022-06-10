@@ -13,6 +13,7 @@ function Main {
     Write-Host "2 : CrÃ©er une UnitÃ© d'Organisation"
     Write-Host "3 : Changer un utilisateur d'UnitÃ© d'Organisation"
     Write-Host "4 : Supprimer une UnitÃ© d'Organisation"
+    Write-Host "5 : Supprimer un utilisateur"
     $choice = Read-Host -Prompt "Que voulez-vous faire "
     $choiceInt
     try {
@@ -22,7 +23,7 @@ function Main {
             Main
         }
         Write-Host $test
-        if ($choiceInt -lt 1 -and $choiceInt -gt 4) {
+        if ($choiceInt -lt 1 -and $choiceInt -gt 5) {
             Write-Host "Vous n'avez pas saisie une bonne valeur veuillez recommencer`n"
             Main
         } else {
@@ -32,8 +33,10 @@ function Main {
                 CreateOU
             } elseif ($choiceInt -eq 3) {
                 MoveUserOU
-            } else {
+            } elseif ($choiceInt -eq 4) {
                 RemoveOU
+            } else {
+                RemoveUser
             }
         }
     } 
