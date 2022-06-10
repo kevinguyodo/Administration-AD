@@ -9,6 +9,8 @@ function CreateOU {
         $DC= "fr"
         $path = "DC=$domainName,DC=$DC"
         New-ADOrganizationalUnit -Name $OUName -Path "$path"
+        Write-Host "`n Votre OU $OUName à bien été créée`n"
+        ExitOrContinueProgram
     }
 }
 
@@ -20,4 +22,6 @@ function RemoveOU {
     Get-ADOrganizationalUnit -Identity "$OUPath" | Set-ADOrganizationalUnit –ProtectedFromAccidentalDeletion $false
 
     Remove-ADOrganizationalUnit -Identity "$OUPath" -Recursive
+
+    ExitOrContinueProgram
 }
