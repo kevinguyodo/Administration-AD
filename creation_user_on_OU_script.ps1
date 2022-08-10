@@ -80,7 +80,7 @@ function GetOUPath {
         [string] $OU
     )
     $OUUser = AttributeOU -OU $OU
-    $domainName = "proxmoxat"
+    $domainName = "your_domain_name"
     $DC= "fr"
     $pathToChange = "DC=$domainName,DC=$DC"
     $finallyPath = ""
