@@ -5,7 +5,7 @@ function CreateOU {
     if ($OUName.Length -eq 0) {
         Write-Host "Vous n'avez pas saisie de nom"
     } else {
-        $domainName = "proxmoxat"
+        $domainName = "your_domain_name"
         $DC= "fr"
         $path = "DC=$domainName,DC=$DC"
         New-ADOrganizationalUnit -Name $OUName -Path "$path"
