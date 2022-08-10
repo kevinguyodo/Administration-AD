@@ -38,7 +38,7 @@ function CreateUser {
     $userName = $name + " " + $surname
     $allInformation = @($name, $userName, $mail, $OU)
     $OUUser = AttributeOU -OU $OU
-    $principalAccountName = ($accountName + "@proxmoxat.fr")
+    $principalAccountName = ($accountName + "@your_domain_name.fr")
 
     try {
         ## Vérification de la longueur de chaque réponse de l'utilisateur pour ne pas laisser de donnée vide
